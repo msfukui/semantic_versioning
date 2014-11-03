@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Semantic versioning\'s class and command.'
   spec.description   = 'Semantic versioning\'s class and command \
   for setting, incrementing to mejor, minor, patch version label.'
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/msfukui/semantic_versioning'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
