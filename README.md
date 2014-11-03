@@ -47,7 +47,7 @@ v.incremental_label = :minor
 v.up    # => '1.3.0'
 
 v.incremental_label = :major
-v.up    # => '2.2.0'
+v.up    # => '2.0.0'
 
 ```
 
@@ -56,6 +56,10 @@ command
 ```sh
 $ version_increment patch 1.2.3
 1.2.4
+$ version_increment minor 1.2.4
+1.3.0
+$ version_increment major 1.3.0
+2.0.0
 ```
 
 ## Contributing
@@ -68,11 +72,11 @@ $ version_increment patch 1.2.3
 
 ## Acknowledgment
 
-セマンティック バージョニングについて素晴らしい仕様書を無償で公開いただいている Tom Preston-Werner さんと、その素晴らしい日本語訳をとてもわかりやすく公開いただいている shijimiii さんに感謝します。
+セマンティック バージョニングについて説明した素晴らしい仕様書を公開いただいている Tom Preston-Werner さんと、その素晴らしい日本語訳をとてもわかりやすく公開いただいている shijimiii さんに感謝します。
 
 ## License
 
-本プログラムのライセンスは MIT License です。
+本プログラムのライセンスは MIT License で提供します。
 
 詳細は [LICENSE.txt](LICENSE.txt) を参照してください。
 
