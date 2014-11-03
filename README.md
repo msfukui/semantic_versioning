@@ -1,8 +1,13 @@
 # SemanticVersioning
 
-セマンティック バージョニング（Semantic Versioning）を取り扱う Utility Class を提供します。
-セマンティック バージョニングについて詳しくは以下のサイトを参照してください。
+セマンティック バージョニング（Semantic Versioning）を取り扱う、とてもささやかな Utility Class を提供します。
+
+セマンティック バージョニングの仕様に基づいて、任意のバージョン番号をインクリメントできる機能が欲しいと思って作りました。
+
+セマンティック バージョニングの仕様については以下のサイトを参照してください。
+
 [semantic_versioning](http://semver.org)
+
 [semantic_versioning(日本語訳)](http://shijimiii.info/technical-memo/semver)
 
 ## Installation
@@ -22,6 +27,8 @@ Or install it yourself as:
     $ gem install semantic_versioning
 
 ## Usage
+
+ruby gems
 
 ```ruby
 require 'semantic_versioning'
@@ -44,8 +51,10 @@ v.up    # => '2.2.0'
 
 ```
 
-```bin
-$ version_increment 1.2.3 patch
+command
+
+```sh
+$ version_increment patch 1.2.3
 1.2.4
 ```
 
@@ -64,6 +73,7 @@ $ version_increment 1.2.3 patch
 ## License
 
 本プログラムのライセンスは MIT License です。
+
 詳細は [LICENSE.txt](LICENSE.txt) を参照してください。
 
 [EOF]
