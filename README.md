@@ -33,7 +33,7 @@ ruby gems
 ```ruby
 require 'semantic_versioning'
 
-v = SemanticVersioning.new '1.2.3'
+v = SemanticVersioning::Version.new '1.2.3'
 
 v.to_s  #  => '1.2.3'
 v.major #  => 1

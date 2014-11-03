@@ -1,5 +1,4 @@
-require 'semantic_versioning/version'
+require_relative 'semantic_versioning/version'
 
 module SemanticVersioning
-  autoload :SemanticVersioning, 'semantic_versioning/semantic_versioning'
 end

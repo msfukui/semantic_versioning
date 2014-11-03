@@ -1,6 +1,6 @@
 RSpec.configure do |config|
 
-  require 'semantic_versioning'
+  require_relative '../lib/semantic_versioning'
 
   config.filter_run :focus
   config.run_all_when_everything_filtered = true
