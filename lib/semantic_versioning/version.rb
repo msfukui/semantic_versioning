@@ -3,24 +3,36 @@ module SemanticVersioning
 
   class Version
     SEMVER = /\A(\d+\.\d+\.\d+)\Z/.freeze
-    attr_reader :major, :minor, :patch
-    attr_accessor :incremental_label
+    LABEL = [:major, :minor, :patch].freeze
 
-    def initialize(version)
+    attr_reader :major, :minor, :patch, :incremental_label
+
+    def initialize(version, incremental_label = :patch)
       unless version =~ SEMVER
-        fail(
-          ArgumentError,
-          "#{version} is not a valid Semantic Versioning string."
-        )
+        fail(ArgumentError,
+             "#{version} is not a valid Semantic Versioning string.")
       end
 
-      @incremental_label = :patch
+      unless LABEL.include? incremental_label
+        fail(ArgumentError,
+             "#{incremental_label} is not a valid label.")
+      end
 
+      @incremental_label = incremental_label
       @major, @minor, @patch = version.split('.').map(&:to_i)
     end
 
     def to_s
       [@major, @minor, @patch].join '.'
+    end
+
+    def incremental_label=(incremental_label)
+      unless LABEL.include? incremental_label
+        fail(ArgumentError,
+             "#{incremental_label} is not a valid label.")
+      end
+
+      @incremental_label = incremental_label
     end
 
     def up
