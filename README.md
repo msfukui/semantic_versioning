@@ -1,6 +1,8 @@
 # SemanticVersioning
 
-セマンティック バージョニング（Semantic Versioning）を取り扱う、とてもささやかな Utility Class を提供します。
+## What's this?
+
+セマンティック バージョニング（Semantic Versioning）を取り扱う、とてもささやかな操作用の Class を提供します。
 
 セマンティック バージョニングの仕様に基づいて、任意のバージョン番号をインクリメントできる機能が欲しいと思って作りました。
 
@@ -54,13 +56,20 @@ v.up    # => '2.0.0'
 command
 
 ```sh
-$ version_increment patch 1.2.3
+$ increment_version patch 1.2.3
 1.2.4
-$ version_increment minor 1.2.4
+$ increment_version minor 1.2.4
 1.3.0
-$ version_increment major 1.3.0
+$ increment_version major 1.3.0
 2.0.0
 ```
+
+## TODO
+
+* Corresponding to the pre-release and the build metadata string.
+* Comparing with other versions.
+
+Please refer to the [issue](https://github.com/msfukui/semantic_versioning/issues) for more information.
 
 ## Contributing
 

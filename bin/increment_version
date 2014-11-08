@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/semantic_versioning'
+
+if ARGV.size != 2
+  STDERR.puts "Usage: $ increment_version \
+[incremental_label(patch|minor|major)] \
+[version(x.y.z)]"
+  exit 1
+else
+  label = ARGV[0].to_sym
+  version = ARGV[1]
+end
+
+puts((SemanticVersioning::Version.new version, label).up)

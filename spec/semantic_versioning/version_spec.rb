@@ -4,6 +4,8 @@ describe SemanticVersioning::Version do
 
   describe '#initialize' do
 
+    let(:valid_version_str) { '1.2.3' }
+
     context 'Check argument validation' do
 
       [
@@ -11,7 +13,7 @@ describe SemanticVersioning::Version do
         '0.0.1',
         '12.34.56'
       ].each do |v|
-        it "#{v} is valid Semantic Versioning string." do
+        it "#{v} is a valid Semantic Versioning string." do
           expect do
             SemanticVersioning::Version.new v
           end.to_not raise_error
@@ -24,17 +26,46 @@ describe SemanticVersioning::Version do
         '1.b.3',
         'c.2.3'
       ].each do |v|
-        it "#{v} is invalid Semantic Versioning string." do
+        it "#{v} is not a valid Semantic Versioning string." do
           expect do
             SemanticVersioning::Version.new v
           end.to raise_error(ArgumentError)
         end
       end
+
+      [
+        :major,
+        :minor,
+        :patch
+      ].each do |l|
+        it ":#{l} is a valid incremental_label string." do
+          expect do
+            SemanticVersioning::Version.new valid_version_str, l
+          end.to_not raise_error
+        end
+
+        it "#{l} is setting incremental_label." do
+          actual = SemanticVersioning::Version.new valid_version_str, l
+          expect(actual.incremental_label).to eq(l)
+        end
+      end
+
+      [
+        :abc,
+        'patch',
+        123
+      ].each do |l|
+        it ":#{l} is not a valid incremental_label string." do
+          expect do
+            SemanticVersioning::Version.new valid_version_str, l
+          end.to raise_error(ArgumentError)
+        end
+      end
     end
 
-    let(:valid_version) { SemanticVersioning::Version.new '1.2.3' }
-
     context 'Translate from version \'1.2.3\'' do
+
+      let(:valid_version) { SemanticVersioning::Version.new '1.2.3' }
 
       it 'major is 1, minor is 2, patch is 3.' do
         expect(valid_version.major).to eq 1
