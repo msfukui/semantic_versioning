@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['msfukui@gmail.com']
   spec.summary       = 'Semantic versioning\'s class and command.'
   spec.description   = 'Semantic versioning\'s class and command \
-  for setting, incrementing to mejor, minor, patch version label.'
+  for setting, incrementing to major, minor, patch version label.'
   spec.homepage      = 'https://github.com/msfukui/semantic_versioning'
   spec.license       = 'MIT'
 
