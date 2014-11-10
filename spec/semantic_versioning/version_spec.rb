@@ -24,7 +24,10 @@ describe SemanticVersioning::Version do
         'a.b.c',
         '1.2.a',
         '1.b.3',
-        'c.2.3'
+        'c.2.3',
+        '0.0.01',
+        '0.02.1',
+        '03.2.1'
       ].each do |v|
         it "#{v} is not a valid Semantic Versioning string." do
           expect do
