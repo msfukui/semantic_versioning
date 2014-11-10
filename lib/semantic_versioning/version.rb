@@ -2,7 +2,7 @@ module SemanticVersioning
   VERSION = '0.0.1'.freeze
 
   class Version
-    SEMVER = /\A(\d+\.\d+\.\d+)\Z/.freeze
+    SEMVER = /\A((\d|[1-9]\d+)\.(\d|[1-9][\d]+)\.(\d|[1-9][\d]+))\Z/.freeze
     LABEL = [:major, :minor, :patch].freeze
 
     attr_reader :major, :minor, :patch, :incremental_label
