@@ -1,5 +1,7 @@
 # SemanticVersioning
 
+[![Build Status](https://travis-ci.org/msfukui/semantic_versioning.svg)](https://travis-ci.org/msfukui/semantic_versioning)
+
 ## What's this?
 
 セマンティック バージョニング（Semantic Versioning）を取り扱う、とても小さな Class とバージョン・インクリメント用のコマンドを提供します。
