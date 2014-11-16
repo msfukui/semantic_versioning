@@ -149,23 +149,37 @@ describe SemanticVersioning::Version do
     end
   end
 
-  describe '#==' do
+  describe '#<=>' do
     let(:valid_version) { SemanticVersioning::Version.new '1.2.3' }
 
-    it "comparing '1.2.3' and '1.2.3' is true." do
+    it 'String Object is a invalid parameter.' do
+      expect(valid_version <=> '1.2.3').to be nil
+    end
+
+    it "Comparing '1.2.3' and '1.2.3' is returned 0." do
       actual = SemanticVersioning::Version.new '1.2.3'
-      expect(actual == valid_version).to be true
+      expect(actual <=> valid_version).to be 0
     end
 
     [
-      '1.2.2',
       '1.2.4',
       '1.3.3',
       '2.2.3'
     ].each do |v|
-      it "comparing '#{v}' and '1.2.3' is false." do
+      it "Comparing '#{v}' and '1.2.3' is returned a regular value." do
         actual = SemanticVersioning::Version.new v
-        expect(actual == valid_version).to be false
+        expect(actual <=> valid_version).to be > 0
+      end
+    end
+
+    [
+      '1.2.2',
+      '1.1.9',
+      '0.9.9'
+    ].each do |v|
+      it "Comparing '#{v}' and '1.2.3' is returned a negative value." do
+        actual = SemanticVersioning::Version.new v
+        expect(actual <=> valid_version).to be < 0
       end
     end
   end

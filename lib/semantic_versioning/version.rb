@@ -48,7 +48,6 @@ module SemanticVersioning
 
     def <=>(other)
       return nil unless other.is_a? SemanticVersioning::Version
-      return 0 if to_s == other.to_s
 
       if @major != other.major
         return @major <=> other.major
