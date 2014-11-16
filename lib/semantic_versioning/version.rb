@@ -24,8 +24,22 @@ module SemanticVersioning
       @major, @minor, @patch = version.split('.').map(&:to_i)
     end
 
-    def to_s
+    def to_string
       [@major, @minor, @patch].join '.'
+    end
+
+    alias_method :to_s,   :to_string
+    alias_method :to_str, :to_string
+
+    def to_array
+      [@major, @minor, @patch]
+    end
+
+    alias_method :to_a,   :to_array
+    alias_method :to_ary, :to_array
+
+    def to_hash
+      { major: @major, minor: @minor, patch: @patch }
     end
 
     def incremental_label=(incremental_label)
@@ -60,11 +74,11 @@ module SemanticVersioning
 
     private
 
-    def valid_version? version
+    def valid_version?(version)
       version =~ SEMVER
     end
 
-    def valid_label? label
+    def valid_label?(label)
       LABEL.include? label
     end
 

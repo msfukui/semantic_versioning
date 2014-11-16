@@ -2,11 +2,12 @@ require 'spec_helper'
 
 describe SemanticVersioning::Version do
 
+  let(:valid_version_str) { '1.2.3' }
+  let(:valid_version)     { SemanticVersioning::Version.new '1.2.3' }
+
   describe '#initialize' do
 
-    let(:valid_version_str) { '1.2.3' }
-
-    context 'Check argument validation' do
+    describe "Check argument's validation" do
 
       [
         '1.2.3',
@@ -66,9 +67,7 @@ describe SemanticVersioning::Version do
       end
     end
 
-    context 'Translate from version \'1.2.3\'' do
-
-      let(:valid_version) { SemanticVersioning::Version.new '1.2.3' }
+    describe 'Setting version \'1.2.3\'' do
 
       it 'major is 1, minor is 2, patch is 3.' do
         expect(valid_version.major).to eq 1
@@ -76,6 +75,21 @@ describe SemanticVersioning::Version do
         expect(valid_version.patch).to eq 3
       end
     end
+  end
+
+  describe '#to_a' do
+    subject { valid_version.to_a }
+    it { is_expected.to eq [1, 2, 3] }
+  end
+
+  describe '#to_s' do
+    subject { valid_version.to_s }
+    it { is_expected.to eq '1.2.3' }
+  end
+
+  describe '#to_hash' do
+    subject { valid_version.to_hash }
+    it { is_expected.to eq major: 1, minor: 2, patch: 3 }
   end
 
   describe '#up' do
@@ -150,15 +164,14 @@ describe SemanticVersioning::Version do
   end
 
   describe '#<=>' do
-    let(:valid_version) { SemanticVersioning::Version.new '1.2.3' }
 
     it 'String Object is a invalid parameter.' do
-      expect(valid_version <=> '1.2.3').to be nil
+      expect(valid_version <=> '1.2.3').to eq nil
     end
 
     it "Comparing '1.2.3' and '1.2.3' is returned 0." do
       actual = SemanticVersioning::Version.new '1.2.3'
-      expect(actual <=> valid_version).to be 0
+      expect(actual <=> valid_version).to eq 0
     end
 
     [
