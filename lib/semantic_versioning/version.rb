@@ -10,12 +10,12 @@ module SemanticVersioning
     attr_reader :major, :minor, :patch, :incremental_label
 
     def initialize(version, incremental_label = :patch)
-      unless version =~ SEMVER
+      unless valid_version? version
         fail(ArgumentError,
              "#{version} is not a valid Semantic Versioning string.")
       end
 
-      unless LABEL.include? incremental_label
+      unless valid_label? incremental_label
         fail(ArgumentError,
              "#{incremental_label} is not a valid label.")
       end
@@ -29,7 +29,7 @@ module SemanticVersioning
     end
 
     def incremental_label=(incremental_label)
-      unless LABEL.include? incremental_label
+      unless valid_label? incremental_label
         fail(ArgumentError,
              "#{incremental_label} is not a valid label.")
       end
@@ -59,6 +59,14 @@ module SemanticVersioning
     end
 
     private
+
+    def valid_version? version
+      version =~ SEMVER
+    end
+
+    def valid_label? label
+      LABEL.include? label
+    end
 
     def upgrade
       if @incremental_label == :major
