@@ -2,9 +2,17 @@
 
 [![Build Status](https://travis-ci.org/msfukui/semantic_versioning.svg)](https://travis-ci.org/msfukui/semantic_versioning)
 
+## Attension!
+
+rubygems.org で公開されているものとは全く別物です。
+
+rubygems.org で公開されているものは以下になります。
+
+[semantic_versioning](https://github.com/joecorcoran/semantic_versioning)
+
 ## What's this?
 
-セマンティック バージョニング（Semantic Versioning）を取り扱う、とても小さな Class とバージョン・インクリメント用のコマンドを提供します。
+セマンティック バージョニング（Semantic Versioning）を取り扱う Class とバージョン・インクリメント用のコマンドを提供します。
 
 セマンティック バージョニングの仕様については以下のサイトを参照してください。
 
