@@ -4,9 +4,9 @@
 
 ## Attension!
 
-rubygems.org で公開されているものとは全く別物です。
+rubygems.org で公開されている以下のものとは全く別物です!
 
-rubygems.org で公開されているものは以下になります。
+探されていた方はごめんなさい。m_o_m
 
 [semantic_versioning](https://github.com/joecorcoran/semantic_versioning)
 
