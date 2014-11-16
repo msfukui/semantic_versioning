@@ -148,4 +148,25 @@ describe SemanticVersioning::Version do
       end
     end
   end
+
+  describe '#==' do
+    let(:valid_version) { SemanticVersioning::Version.new '1.2.3' }
+
+    it "comparing '1.2.3' and '1.2.3' is true." do
+      actual = SemanticVersioning::Version.new '1.2.3'
+      expect(actual == valid_version).to be true
+    end
+
+    [
+      '1.2.2',
+      '1.2.4',
+      '1.3.3',
+      '2.2.3'
+    ].each do |v|
+      it "comparing '#{v}' and '1.2.3' is false." do
+        actual = SemanticVersioning::Version.new v
+        expect(actual == valid_version).to be false
+      end
+    end
+  end
 end

@@ -2,6 +2,8 @@ module SemanticVersioning
   VERSION = '0.0.1'.freeze
 
   class Version
+    include Comparable
+
     SEMVER = /\A((\d|[1-9]\d+)\.(\d|[1-9][\d]+)\.(\d|[1-9][\d]+))\Z/.freeze
     LABEL = [:major, :minor, :patch].freeze
 
@@ -35,17 +37,26 @@ module SemanticVersioning
       @incremental_label = incremental_label
     end
 
-    def up
-      major, minor, patch = @major, @minor, @patch
-      upgrade
-      ret = SemanticVersioning::Version.new to_s
-      @major, @minor, @patch = major, minor, patch
-      ret
-    end
-
     def up!
       upgrade
       self
+    end
+
+    def up
+      dup.up!
+    end
+
+    def <=>(other)
+      return nil unless other.is_a? SemanticVersioning::Version
+      return 0 if to_s == other.to_s
+
+      if @major != other.major
+        return @major <=> other.major
+      elsif @minor != other.minor
+        return @minor <=> other.minor
+      else
+        return @patch <=> other.patch
+      end
     end
 
     private

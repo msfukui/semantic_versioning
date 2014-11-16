@@ -2,6 +2,12 @@
 
 require_relative '../lib/semantic_versioning'
 
+if RUBY_VERSION < '1.9.3'
+  STDERR.puts "Warning: This program has confirmed \
+the operation in ruby version 1.9.3 or higher."
+  exit 2
+end
+
 if ARGV.size != 2
   STDERR.puts "Usage: $ increment_version \
 [incremental_label(patch|minor|major)] \
