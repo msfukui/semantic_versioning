@@ -37,19 +37,32 @@ require 'semantic_versioning'
 
 v = SemanticVersioning::Version.new '1.2.3'
 
-v.to_s  #  => '1.2.3'
-v.major #  => 1
-v.minor #  => 2
-v.patch #  => 3
+v.to_s     # => '1.2.3'
+v.to_a     # => [1, 2, 3]
+v.to_hash  # => { major: 1, minor: 2, patch: 3 }
+v.major    # => 1
+v.minor    # => 2
+v.patch    # => 3
 
 v.incremental_label = :patch # default
-v.up    # => '1.2.4'
+v.up       # => '1.2.4'
 
 v.incremental_label = :minor
-v.up    # => '1.3.0'
+v.up       # => '1.3.0'
 
 v.incremental_label = :major
-v.up    # => '2.0.0'
+v.up       # => '2.0.0'
+
+v1  = SemanticVersioning::Version.new '1.2.3'
+v2  = SemanticVersioning::Version.new '1.2.4'
+v11 = SemanticVersioning::Version.new '1.2.3'
+
+v1 > v2    # => false
+v1 >= v2   # => false
+v1 > v2    # => true
+v1 >= v2   # => true
+v1 == v2   # => false
+v1 == v11  # => true
 
 ```
 
@@ -67,7 +80,6 @@ $ increment_version major 1.3.0
 ## TODO
 
 * Corresponding to the pre-release and the build metadata string.
-* Comparing with other versions.
 
 Please refer to the [issue](https://github.com/msfukui/semantic_versioning/issues) for more information.
 
