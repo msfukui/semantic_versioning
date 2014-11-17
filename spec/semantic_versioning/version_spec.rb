@@ -2,8 +2,23 @@ require 'spec_helper'
 
 describe SemanticVersioning::Version do
 
-  let(:valid_version_str) { '1.2.3' }
-  let(:valid_version)     { SemanticVersioning::Version.new '1.2.3' }
+  let(:valid_version_str)       { '1.2.3' }
+  let(:valid_ver_pre_str)       { '1.2.3-alpha.1' }
+  let(:valid_ver_build_str)     { '1.2.3+20130313144700' }
+  let(:valid_ver_pre_build_str) { '1.2.3-beta+exp.sha.54f85' }
+
+  let(:valid_version) do
+    SemanticVersioning::Version.new '1.2.3'
+  end
+  let(:valid_ver_pre) do
+    SemanticVersioning::Version.new '1.2.3-alpha.1'
+  end
+  let(:valid_ver_build) do
+    SemanticVersioning::Version.new '1.2.3+20130313144700'
+  end
+  let(:valid_ver_pre_build) do
+    SemanticVersioning::Version.new '1.2.3-beta+exp.sha.54f85'
+  end
 
   describe '#initialize' do
 
@@ -12,7 +27,14 @@ describe SemanticVersioning::Version do
       [
         '1.2.3',
         '0.0.1',
-        '12.34.56'
+        '12.34.56',
+        '1.2.3-alpha',
+        '1.2.3-alpha.1',
+        '1.2.3-0.3.7',
+        '1.2.3-x.7.z.92',
+        '1.2.3-alpha+001',
+        '1.2.3+20130313144700',
+        '1.2.3-beta+exp.sha.5114f85'
       ].each do |v|
         it "#{v} is a valid Semantic Versioning string." do
           expect do
@@ -28,7 +50,13 @@ describe SemanticVersioning::Version do
         'c.2.3',
         '0.0.01',
         '0.02.1',
-        '03.2.1'
+        '03.2.1',
+        '1.2.3-',
+        '1.2.3-+',
+        '1.2.3-0.3.7+',
+        '1.2.3-x.#.z.92',
+        '1.2.3-alpha+00%',
+        '1.2.3+@20130313144700'
       ].each do |v|
         it "#{v} is not a valid Semantic Versioning string." do
           expect do
@@ -67,29 +95,149 @@ describe SemanticVersioning::Version do
       end
     end
 
-    describe 'Setting version \'1.2.3\'' do
+    describe "Setting version '1.2.3'" do
 
-      it 'major is 1, minor is 2, patch is 3.' do
+      it 'major: 1, minor: 2, patch: 3.' do
         expect(valid_version.major).to eq 1
         expect(valid_version.minor).to eq 2
         expect(valid_version.patch).to eq 3
+        expect(valid_version.pre).to eq nil
+        expect(valid_version.build).to eq nil
+      end
+    end
+
+    describe "Setting version '1.2.3-alpha.1'" do
+
+      it "major: 1, minor: 2, patch: 3, pre: 'alpha.1'." do
+        expect(valid_ver_pre.major).to eq 1
+        expect(valid_ver_pre.minor).to eq 2
+        expect(valid_ver_pre.patch).to eq 3
+        expect(valid_ver_pre.pre).to eq 'alpha.1'
+        expect(valid_ver_pre.build).to eq nil
+      end
+    end
+
+    describe "Setting version '1.2.3+20130313144700'" do
+
+      it "major: 1, minor: 2, patch: 3, build: '20130313144700'." do
+        expect(valid_ver_build.major).to eq 1
+        expect(valid_ver_build.minor).to eq 2
+        expect(valid_ver_build.patch).to eq 3
+        expect(valid_ver_build.pre).to eq nil
+        expect(valid_ver_build.build).to eq '20130313144700'
+      end
+    end
+
+    describe "Setting version '1.2.3-beta+exp.sha.54f85'" do
+
+      it "major: 1, minor: 2, patch: 3, pre: 'beta', build: 'exp.sha.54f85'." do
+        expect(valid_ver_pre_build.major).to eq 1
+        expect(valid_ver_pre_build.minor).to eq 2
+        expect(valid_ver_pre_build.patch).to eq 3
+        expect(valid_ver_pre_build.pre).to eq 'beta'
+        expect(valid_ver_pre_build.build).to eq 'exp.sha.54f85'
       end
     end
   end
 
   describe '#to_a' do
-    subject { valid_version.to_a }
-    it { is_expected.to eq [1, 2, 3] }
+
+    context ' 1.2.3' do
+      subject { valid_version.to_a }
+      it { is_expected.to eq [1, 2, 3, nil, nil] }
+    end
+
+    context ' 1.2.3-alpha.1' do
+      subject { valid_ver_pre.to_a }
+      it { is_expected.to eq [1, 2, 3, 'alpha.1', nil] }
+    end
+
+    context ' 1.2.3+20130313144700' do
+      subject { valid_ver_build.to_a }
+      it { is_expected.to eq [1, 2, 3, nil, '20130313144700'] }
+    end
+
+    context ' 1.2.3-beta+exp.sha.54f85' do
+      subject { valid_ver_pre_build.to_a }
+      it { is_expected.to eq [1, 2, 3, 'beta', 'exp.sha.54f85'] }
+    end
   end
 
   describe '#to_s' do
-    subject { valid_version.to_s }
-    it { is_expected.to eq '1.2.3' }
+
+    context ' 1.2.3' do
+      subject { valid_version.to_s }
+      it { is_expected.to eq '1.2.3' }
+    end
+
+    context ' 1.2.3-alpha.1' do
+      subject { valid_ver_pre.to_s }
+      it { is_expected.to eq '1.2.3-alpha.1' }
+    end
+
+    context ' 1.2.3+20130313144700' do
+      subject { valid_ver_build.to_s }
+      it { is_expected.to eq '1.2.3+20130313144700' }
+    end
+
+    context ' 1.2.3-beta+exp.sha.54f85' do
+      subject { valid_ver_pre_build.to_s }
+      it { is_expected.to eq '1.2.3-beta+exp.sha.54f85' }
+    end
   end
 
   describe '#to_hash' do
-    subject { valid_version.to_hash }
-    it { is_expected.to eq major: 1, minor: 2, patch: 3 }
+    context ' 1.2.3' do
+      subject { valid_version.to_hash }
+      it do
+        is_expected.to eq(
+          major: 1,
+          minor: 2,
+          patch: 3,
+          pre: nil,
+          build: nil
+        )
+      end
+    end
+
+    context ' 1.2.3-alpha.1' do
+      subject { valid_ver_pre.to_hash }
+      it do
+        is_expected.to eq(
+          major: 1,
+          minor: 2,
+          patch: 3,
+          pre: 'alpha.1',
+          build: nil
+        )
+      end
+    end
+
+    context ' 1.2.3+20130313144700' do
+      subject { valid_ver_build.to_hash }
+      it do
+        is_expected.to eq(
+          major: 1,
+          minor: 2,
+          patch: 3,
+          pre: nil,
+          build: '20130313144700'
+        )
+      end
+    end
+
+    context ' 1.2.3-beta+exp.sha.54f85' do
+      subject { valid_ver_pre_build.to_hash }
+      it do
+        is_expected.to eq(
+          major: 1,
+          minor: 2,
+          patch: 3,
+          pre: 'beta',
+          build: 'exp.sha.54f85'
+        )
+      end
+    end
   end
 
   describe '#up' do
@@ -174,10 +322,17 @@ describe SemanticVersioning::Version do
       expect(actual <=> valid_version).to eq 0
     end
 
+    it 'When Comparing, build parameter is ignored.' do
+      actual = SemanticVersioning::Version.new '1.2.3+build20010101001'
+      expect(actual <=> valid_version).to eq 0
+    end
+
     [
       '1.2.4',
       '1.3.3',
-      '2.2.3'
+      '2.2.3',
+      '1.2.4-alpha.0',
+      '1.2.4-alpha.0+build20010101001'
     ].each do |v|
       it "Comparing '#{v}' and '1.2.3' is returned a regular value." do
         actual = SemanticVersioning::Version.new v
@@ -188,7 +343,9 @@ describe SemanticVersioning::Version do
     [
       '1.2.2',
       '1.1.9',
-      '0.9.9'
+      '0.9.9',
+      '1.2.3-alpha.0',
+      '1.2.3-alpha.0+build20010101001'
     ].each do |v|
       it "Comparing '#{v}' and '1.2.3' is returned a negative value." do
         actual = SemanticVersioning::Version.new v
