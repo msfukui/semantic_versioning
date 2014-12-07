@@ -79,11 +79,11 @@ module SemanticVersioning
       return nil unless other.is_a? SemanticVersioning::Version
 
       if @major != other.major
-        return @major <=> other.major
+        @major <=> other.major
       elsif @minor != other.minor
-        return @minor <=> other.minor
+        @minor <=> other.minor
       elsif @patch != other.patch
-        return @patch <=> other.patch
+        @patch <=> other.patch
       else
         compare_pre_release_version(@pre, other.pre)
       end
@@ -114,11 +114,11 @@ module SemanticVersioning
 
     def compare_pre_release_version(me, you)
       if me.nil? && you.nil?
-        return 0
+        0
       elsif me.nil?
-        return 1
+        1
       elsif you.nil?
-        return -1
+        -1
       else
         compare_pre(me.split('.'), you.split('.'))
       end
@@ -126,14 +126,21 @@ module SemanticVersioning
 
     def compare_pre(me, you)
       if me[0].nil? && you[0].nil?
-        return 0
+        0
       elsif me[0].nil?
-        return -1
+        -1
       elsif you[0].nil?
-        return 1
+        1
       else
         if me[0] != you[0]
-          me[0] <=> you[0]
+          begin
+            m = Integer(me[0])
+            y = Integer(you[0])
+          rescue ArgumentError
+            me[0] <=> you[0]
+          else
+            m <=> y
+          end
         else
           me.shift
           you.shift

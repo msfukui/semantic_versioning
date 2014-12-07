@@ -352,5 +352,23 @@ describe SemanticVersioning::Version do
         expect(actual <=> valid_version).to be < 0
       end
     end
+
+    describe 'When major, minor, and patch are equal,\
+    a pre-release version has lower precedence than a normal version.' do
+      [
+        ['1.0.0-alpha',      '1.0.0-alpha.1'],
+        ['1.0.0-alpha.1',    '1.0.0-alpha.beta'],
+        ['1.0.0-alpha.beta', '1.0.0-beta'],
+        ['1.0.0-beta.2',     '1.0.0-beta.11'],
+        ['1.0.0-rc.1',       '1.0.0'],
+        ['1.0.0-alpha',      '1.0.0']
+      ].each do |(a, e)|
+        it "Comparing '#{a}' and #{e} is returned a negative value." do
+          actual   = SemanticVersioning::Version.new a
+          expected = SemanticVersioning::Version.new e
+          expect(actual <=> expected).to be < 0
+        end
+      end
+    end
   end
 end
