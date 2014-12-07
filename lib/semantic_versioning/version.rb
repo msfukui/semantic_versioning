@@ -7,7 +7,7 @@ module SemanticVersioning
     SEMVER = /\A((\d|([1-9]\d)+)\.
                  (\d|([1-9]\d)+)\.
                  (\d|([1-9]\d)+))
-              (-([0-9A-Za-z\-\.]+))?
+              (-([0-9A-Za-z\-\.])+)?
               (\+([0-9A-Za-z\-\.]+))?\Z/x
     PRE_RELEASE_VERSION = /\A[0-9A-Za-z\-\.]+\Z/x
     BUILD_METADATA      = /\A[0-9A-Za-z\-\.]+\Z/x
@@ -25,9 +25,7 @@ module SemanticVersioning
       end
 
       @incremental_label = incremental_label
-      @major, @minor, @patch = version.split('.').map(&:to_i)
-      @pre, @build           = version.split('+').map(&:to_s)
-      @pre                   = @pre.split('-')[1]
+      @major, @minor, @patch, @pre, @build = separate_version(version)
     end
 
     def to_string
@@ -92,11 +90,36 @@ module SemanticVersioning
     private
 
     def valid_version?(version)
-      version =~ SEMVER
+      return false unless version =~ SEMVER
+
+      pre = separate_version(version)[3]
+      unless pre.nil?
+        pre.split('.').each do |v|
+          return false if numeric_string_begining_with_zero?(v)
+        end
+      end
+
+      true
+    end
+
+    def numeric_string_begining_with_zero?(s)
+      return false if s.nil?
+      if s =~ /\d+/ && s != '0' && s =~ /^0/
+        true
+      else
+        false
+      end
     end
 
     def valid_label?(label)
       LABEL.include? label
+    end
+
+    def separate_version(version)
+      major, minor, patch = version.split('.').map(&:to_i)
+      pre, build          = version.split('+').map(&:to_s)
+      pre                 = pre.split('-')[1]
+      [major, minor, patch, pre, build]
     end
 
     def upgrade
